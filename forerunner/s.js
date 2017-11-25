@@ -1,5 +1,12 @@
 var fdb = new ForerunnerDB();
 var db = fdb.db("school");
+
+$(document).ready(function(){
+	studentCollection.load(dataLoad);
+})
+
+$("#table-tbody").on("click","col", colClick);
+
 var studentCollection = db.collection("students");
 var newStudent = {
     name: "Koding",
@@ -17,7 +24,8 @@ function dataLoad(){
 }
 
 function callback(){
-	createData();
+	// createData();
+	update(studentCollection.find());
 }
 
 function dataSave(){
@@ -35,6 +43,36 @@ function createData(){
 		});
 	}
 	console.log(studentCollection.find());
-	// studentCollection.save(dataSave);	
+	studentCollection.save(dataSave);	
 }
- 
+
+function update(tt) {
+	console.log("update");
+	$("#tt").find("tr").remove();
+
+	for (var i = 0; i < tt.length; i++) {
+		$("#tt").append(
+		 "<tr class='col'>" +
+		 "<td>" + (i + 1) + "</td>" +
+		 "<td class='dataId'>" + tt[i]._id + "</td>" +
+		 "<td>" + tt[i].name + "</td>" +
+		 "</tr>"
+		 );
+	}
+}
+
+function colClick(){
+	console.log("colClick");
+	var ID = $(this).find("dataId").text();
+	var query = {
+    _id: ID
+	};
+	$("#myModal").find("p").remove();
+	var studentData = studentCollection.find(query);
+ 	$("#modal-body").append(
+ 		"<p>ID:" + studentData[0]._id + "</p>" +
+ 		"<p>姓名:" + datas[0].name + "</p>" +
+ 		"<p>年齡:" + studentCollection[0].age + "</p>"
+	);
+ 	$("#myModal").modal("show");
+}  

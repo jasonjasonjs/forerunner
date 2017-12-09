@@ -2,20 +2,35 @@ var fdb = new ForerunnerDB();
 var db = fdb.db("school");
 
 $(document).ready(function(){
+	console.log("ready");
 	studentCollection.load(dataLoad);
+	$("#tt").on("click",".dataId", colIdClick);
+	$("#tt").on("click",".btn-danger", btnDeleteClick);
+	$("#tt").on("click",".btn-warning", btnEditClick);
 })
 
-$("#table-tbody").on("click","col", colClick);
+function btnDeleteClick(){
+	var getId = $(this).closest("tr").find(".dataId").text();
+	if(confirm("你確定要刪除嗎?") == false){
+		 return;
+	}
+	studentCollection.remove({
+		_id:  getId
+	});
+
+	studentCollection.save(dataSave);
+	// // update(studentCollection.find());
+}
+
+
 
 var studentCollection = db.collection("students");
 var newStudent = {
-    name: "Koding",
+    colIdClick: "Koding",
     age: 18
 };
 
 studentCollection.load(dataLoad);
-
-// console.log(studentCollection.find());
 
 function dataLoad(){
 	console.log("data loaded");
@@ -30,6 +45,7 @@ function callback(){
 
 function dataSave(){
 	 console.log("data saved");
+	 update(studentCollection.find());
 }
 
 function createData(){
@@ -56,23 +72,45 @@ function update(tt) {
 		 "<td>" + (i + 1) + "</td>" +
 		 "<td class='dataId'>" + tt[i]._id + "</td>" +
 		 "<td>" + tt[i].name + "</td>" +
+		 "<td button class='btn btn-warning'>修改</button>" + "<td button class='btn btn-danger'>刪除</button>" +
 		 "</tr>"
 		 );
 	}
-}
+} 
 
-function colClick(){
-	console.log("colClick");
-	var ID = $(this).find("dataId").text();
+function colIdClick(){
+	console.log("colIdClick");
+	var ID = $(this).text();
 	var query = {
     _id: ID
 	};
+
 	$("#myModal").find("p").remove();
 	var studentData = studentCollection.find(query);
  	$("#modal-body").append(
  		"<p>ID:" + studentData[0]._id + "</p>" +
- 		"<p>姓名:" + datas[0].name + "</p>" +
- 		"<p>年齡:" + studentCollection[0].age + "</p>"
+ 		"<p>姓名:" + studentData[0].name + "</p>" +
+ 		"<p>年齡:" + studentData[0].age + "</p>" 
 	);
  	$("#myModal").modal("show");
-}  
+} 
+
+function talk(){
+	var name = $("edtname").val();
+	var age = $("edtage").val();
+	alert(age + "歲的" + name);
+}
+
+function btnEditClick(){
+	console.log("btnEditClick");
+	var ID = $(this).closest("tr").find(".dataId").text();
+	console.log(ID);
+	var query = {
+		_id: ID
+	}
+	var studentData = studentCollection.find(query);
+ 	$("#modalAge").val(studentData[0].age);	 
+ 	$("#modalName").val(studentData[0].name);
+	$("#EditModal").attr("studentID", ID);
+	$("#EditModal").modal("show");
+}

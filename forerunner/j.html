@@ -9,35 +9,62 @@
 	<title></title>
 </head>
 <body>
+	<p>
+	<label>Name:<input id="edtname" type=”text” value=""/></label>
+	<label>age:<input id="edtage" type=”text” value=""/></label>
+	<button type="button" class="" id="talk">查詢</button>
+	</p>
 	<table class="table table-hover">
         <thead>
             <tr>
             	<td>#</td>
                 <td>id</td>
                 <td>姓名</td>
+                <td>編輯</td>
             </tr>
         </thead>
         <tbody id = "tt">
              
         </tbody>
     </table>
-    <div class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title">Modal title</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
+		        <h4 class="modal-title">學生資料</h4>
 		      </div>
-		      <div class="modal-body">
-		      <iframe allowtransparency="true" width="485" height="402" src="https://scratch.mit.edu/projects/embed/140044746/?autostart=false" frameborder="0" allowfullscreen></iframe>
-		        <p>happy</p>
+		      <div class="modal-body" id="modal-body">
+
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		        <button type="button" class="btn btn-primary">Save changes</button>
+				
 		      </div>
 		    </div> 
 		  </div> 
 		</div> 
+
+
+
+		 <div class="modal fade" tabindex="-1" role="dialog" id="EditModal" studentID="">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"></span></button>
+		        <h4 class="modal-title">修改學生資料</h4>
+		      </div>
+		      <div class="modal-body">
+		      	<label>studentName:<input id="modalName" type=”text” value=""/></label>
+				<label>studentAge:<input id="modalAge" type=”text” value=""/></label>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button id="btnSave" class="btn btn-primary">Save changes</button>
+		      </div>
+		    </div> 
+		  </div> 
+		</div> 
+
 </body>
 </html>

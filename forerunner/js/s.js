@@ -10,8 +10,6 @@ $(document).ready(function(){
 	$("#table-tbody").on("click", ".btn-danger", btnDeleteClick);
 	$("#btnInsertData").on("click", insertData);
 	$("#table-tbody").on("click", ".btn-warning", btnEditClick);
-	$("#btnSave").on("click", saveUpdateData);
-	$("#btnLimitSearch").on("click", LimitSearch);
 });
 
 function dataLoad() {
@@ -120,24 +118,5 @@ function btnEditClick(){
 }
 
 function saveUpdateData(){
-	console.log("saveUpdateData");
-	var ID = $("#EditModal").attr("studentID");
-	var newData = {
-		name: $("#modalName").val(),
-		age:$("#maodalAge").val()
-	};
-	studentCollection.updateById(ID,newData);
-	$("#EditModal").modal("hide");
-	studentCollection.save(dataSave);
-}
 
-function LimitSearch(){
-	console.log("LimitSearch");
-	var LimitSearch = studentCollection.find({
-    	age: {
-        	"$gt": $("#edtGT").val(),
-        	"$lt": $("#edtLT").val() 
-    	}
-    });
-	updateTable(LimitSearch);
 }

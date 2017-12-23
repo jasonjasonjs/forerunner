@@ -1,7 +1,7 @@
 var fdb = new ForerunnerDB();
 var db = fdb.db("school");
-
 var studentCollection = db.collection('students');
+
 
 $(document).ready(function(){
 	console.log("ready");
@@ -12,7 +12,9 @@ $(document).ready(function(){
 	$("#table-tbody").on("click", ".btn-warning", btnEditClick);
 	$("#btnSave").on("click", saveUpdateData);
 	$("#btnLimitSearch").on("click", LimitSearch);
+	$("#btnCertainSearch").on("click", CertainSearch);
 });
+
 
 function dataLoad() {
 	console.log("data loaded");
@@ -20,6 +22,7 @@ function dataLoad() {
 	// createData();
 	updateTable(studentCollection.find());
 }
+
 
 function dataSave(){
 	console.log("data saved");
@@ -31,7 +34,7 @@ function dataRemove(){
 	console.log("data removed");
 }
 
-//假資料
+
 function createData(){
 	console.log("create data");
 	for(var i = 0; i < 20; i++){
@@ -45,6 +48,7 @@ function createData(){
 	console.log(studentCollection.find());
 	studentCollection.save(dataSave);
 }
+
 
 function updateTable(datas){
 	console.log("updateTable");
@@ -64,6 +68,7 @@ function updateTable(datas){
 	}
 }
 
+
 function colIDClick(){ 
 	console.log("colIDClick");
 	var ID = $(this).text();
@@ -82,6 +87,7 @@ function colIDClick(){
 	$("#myModal").modal("show"); 
 }
 
+
 function btnDeleteClick(){
 	console.log("btnDeleteClick");
 	if (!confirm("確定要刪除嗎?")) {return;}
@@ -92,12 +98,12 @@ function btnDeleteClick(){
 	studentCollection.save(dataSave);
 }
 
+
 function insertData(){
 	console.log("insertData");
 	var name = $("#edtName").val();
 	var age = $("#edtAge").val();
-	// alert(age + "歲的" + name);
-
+	
 	studentCollection.insert({
 		name:name,
 		age:age
@@ -106,6 +112,7 @@ function insertData(){
 	$("#edtName").val("");
 	$("#edtAge").val("");
 }
+
 
 function btnEditClick(){
 	var ID = $(this).closest("tr").find(".dataID").text();
@@ -119,6 +126,7 @@ function btnEditClick(){
 	$("#EditModal").modal("show");
 }
 
+
 function saveUpdateData(){
 	console.log("saveUpdateData");
 	var ID = $("#EditModal").attr("studentID");
@@ -131,6 +139,7 @@ function saveUpdateData(){
 	studentCollection.save(dataSave);
 }
 
+
 function LimitSearch(){
 	console.log("LimitSearch");
 	var LimitSearch = studentCollection.find({
@@ -140,4 +149,24 @@ function LimitSearch(){
     	}
     });
 	updateTable(LimitSearch);
+}
+
+
+function CertainSearch(){
+	console.log("CertainSearch");
+	var checkbox = $(".cbAge");
+	var checked = [];
+
+	for (var i = 0; i < checkbox.length; i++) {
+		if (checkbox[i].checked) {
+			checked.push(checkbox[i].value *1);
+		}
+	}
+
+	var certainSearch = studentCollection.find({
+    	age: {
+        	$in: checked
+    	}
+	});
+	updateTable(certainSearch);
 }
